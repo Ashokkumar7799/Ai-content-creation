@@ -1,0 +1,44 @@
+# AI Supercomputer .gitignore
+# Place this file in ~/LTX_Workspace/ on your VM BEFORE running git init!
+
+# 1. Ignore all massive AI models
+*.safetensors
+*.pth
+*.onnx
+*.bin
+*.ckpt
+*.pt
+*.gguf
+*.sft
+
+# 2. Ignore ComfyUI Heavy Folders (We only want the custom node scripts, not the models/venvs)
+ComfyUI/models/
+ComfyUI/input/
+ComfyUI/output/
+ComfyUI/temp/
+ComfyUI/venv/
+ComfyUI/venv_upscaler/
+ComfyUI/venv_wan/
+ComfyUI/venv_krea2/
+
+# 3. Ignore Deep-Live-Cam Heavy Folders
+Deep-Live-Cam/models/
+Deep-Live-Cam/uploads/
+Deep-Live-Cam/venv_face/
+
+# 4. Ignore Python System Files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+venv_*/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# 5. Ignore OS / Temporary files
+.DS_Store
+pinggy_url.txt
+*.log
