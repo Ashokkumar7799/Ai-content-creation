@@ -13,11 +13,14 @@ echo "2. LTX-2.3 (Video Generation)"
 echo "3. SeedVR2 Upscaler"
 echo "4. Deep-Live-Cam (Flask Face Swapper)"
 echo "5. Wan 2.2 (Video Generation - 14B)"
+echo "6. Krea 2 (Turbo Image Generation - BF16)"
+echo "7. F5-TTS (Telugu Voice Generator)"
+echo "8. Eros 10 (Standalone Image/Video Gen)"
 echo "=========================================="
-read -p "Select a workflow (1-5): " option
+read -p "Select a workflow (1-8): " option
 
 # Master Kill Switch: When Ctrl+C is pressed, aggressively kill all child processes
-trap "echo -e '\n🛑 Master Kill Switch Activated! Stopping all services...'; pkill -f main.py 2>/dev/null; pkill -f face_swap_app.py 2>/dev/null; pkill -f pinggy 2>/dev/null; pkill -f hf 2>/dev/null; pkill -P $$ 2>/dev/null; exit 1" SIGINT SIGTERM
+trap "echo -e '\n🛑 Master Kill Switch Activated! Stopping all services...'; pkill -f main.py 2>/dev/null; pkill -f face_swap_app.py 2>/dev/null; pkill -f f5_tts_app.py 2>/dev/null; pkill -f pinggy 2>/dev/null; pkill -f hf 2>/dev/null; pkill -f huggingface 2>/dev/null; pkill -P $$ 2>/dev/null; exit 1" SIGINT SIGTERM
 
 # Cleanup old processes safely
 echo "🧹 Cleaning up old connections..."
@@ -25,6 +28,7 @@ fuser -k 8188/tcp 2>/dev/null || true
 fuser -k 5000/tcp 2>/dev/null || true
 pkill -f main.py 2>/dev/null || true
 pkill -f face_swap_app.py 2>/dev/null || true
+pkill -f f5_tts_app.py 2>/dev/null || true
 pkill -f pinggy 2>/dev/null || true
 sleep 2
 
@@ -60,7 +64,7 @@ case $option in
         ;;
     2)
         echo "🚀 Initializing LTX-2.3 Workflow..."
-        if [ ! -f "$COMFY_DIR/models/diffusion_models/ltx-2.3-22b-distilled-1.1_transformer_only_fp8_scaled.safetensors" ]; then
+        if [ ! -f "$COMFY_DIR/models/diffusion_models/10Eros_v1.5_bf16.safetensors" ]; then
             echo "⚠️ LTX-2.3 models not found! Downloading automatically..."
             cd "$WORKSPACE" && bash setup_ltx_models.sh
         fi
@@ -108,6 +112,39 @@ case $option in
         echo "✅ Models verified. Starting ComfyUI on Quarantined Wan Environment..."
         cd "$COMFY_DIR"
         venv_wan/bin/python main.py --listen 0.0.0.0 --port 8188 &
+        start_pinggy 8188
+        ;;
+    6)
+        echo "🚀 Initializing Krea 2 Turbo Workflow..."
+        if [ ! -d "$COMFY_DIR/venv_krea2" ] || [ ! -f "$COMFY_DIR/models/diffusion_models/krea2/krea2_turbo_bf16.safetensors" ]; then
+            echo "⚠️ Krea 2 environment or models missing! Setting up automatically..."
+            cd "$WORKSPACE" && bash setup_krea2.sh
+        fi
+        echo "✅ Models verified. Starting ComfyUI on Quarantined Krea 2 Environment..."
+        cd "$COMFY_DIR"
+        venv_krea2/bin/python main.py --listen 0.0.0.0 --port 8188 &
+        start_pinggy 8188
+        ;;
+    7)
+        echo "🚀 Initializing F5-TTS Telugu Workflow..."
+        if [ ! -d "$WORKSPACE/F5-TTS-Telugu/venv_voice" ] || [ ! -f "$WORKSPACE/F5-TTS-Telugu/models/telugu_model/F5TTS_v1_Base/model_250000.pt" ]; then
+            echo "⚠️ F5-TTS environment or models missing! Setting up automatically..."
+            cd "$WORKSPACE" && bash setup_voice.sh
+        fi
+        echo "✅ Environment verified. Starting Gradio UI..."
+        cd "$WORKSPACE/F5-TTS-Telugu"
+        venv_voice/bin/python f5_tts_app.py &
+        start_pinggy 7860
+        ;;
+    8)
+        echo "🚀 Initializing Standalone Eros10 Workflow..."
+        if [ ! -d "$COMFY_DIR/venv_eros10" ] || [ ! -f "$COMFY_DIR/models/diffusion_models/10Eros_v1.5_bf16.safetensors" ]; then
+            echo "⚠️ Eros10 environment or models missing! Setting up automatically..."
+            cd "$WORKSPACE" && bash setup_eros10.sh
+        fi
+        echo "✅ Models verified. Starting ComfyUI on Quarantined Eros10 Environment..."
+        cd "$COMFY_DIR"
+        venv_eros10/bin/python main.py --listen 0.0.0.0 --port 8188 &
         start_pinggy 8188
         ;;
     *)

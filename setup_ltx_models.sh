@@ -50,7 +50,7 @@ download_hf_model() {
     fi
 }
 
-# 1. Diffusion Model
+# 1. Diffusion Model (LTX-2.3 Base)
 download_hf_model "Kijai/LTX2.3_comfy" "diffusion_models/ltx-2.3-22b-distilled-1.1_transformer_only_fp8_scaled.safetensors" "$COMFY_DIR/models/diffusion_models" "ltx-2.3-22b-distilled-1.1_transformer_only_fp8_scaled.safetensors"
 
 # 2. Upscaler
@@ -74,4 +74,3 @@ download_hf_model "Kijai/LTX2.3_comfy" "vae/taeltx2_3.safetensors" "$COMFY_DIR/m
 echo "======================================================="
 echo "  🎉 ALL LTX-2.3 MODELS DOWNLOADED SUCCESSFULLY! "
 echo "======================================================="
-
