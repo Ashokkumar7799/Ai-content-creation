@@ -52,11 +52,13 @@ download_hf_model() {
 
 # 1. Diffusion Model (LTX-2.3 Base)
 download_hf_model "Kijai/LTX2.3_comfy" "diffusion_models/ltx-2.3-22b-distilled-1.1_transformer_only_fp8_scaled.safetensors" "$COMFY_DIR/models/diffusion_models" "ltx-2.3-22b-distilled-1.1_transformer_only_fp8_scaled.safetensors"
+# download_hf_model "TenStrip/LTX2.3-10Eros" "10Eros_v1.5_bf16.safetensors" "$COMFY_DIR/models/diffusion_models" "10Eros_v1.5_bf16.safetensors"
 
 # 2. Upscaler
 download_hf_model "Lightricks/LTX-2.3" "ltx-2.3-spatial-upscaler-x2-1.1.safetensors" "$COMFY_DIR/models/latent_upscale_models" "ltx-2.3-spatial-upscaler-x2-1.1.safetensors"
 
 # 3. LoRAs
+# download_hf_model "TenStrip/LTX2.3_DMD_Lora" "LTX2.3_DMD_reshaped_r256.safetensors" "$COMFY_DIR/models/loras" "LTX2.3_DMD_reshaped_r256.safetensors"
 download_hf_model "TenStrip/LTX2.3_Distilled_Lora_1.1_Experiments" "ltx-2.3-22b-distilled-lora-1.1_fro90_ceil72_condsafe.safetensors" "$COMFY_DIR/models/loras" "ltx-2.3-22b-distilled-lora-1.1_fro90_ceil72_condsafe.safetensors"
 download_hf_model "WarmBloodAban/Singularity-LTX-2.3_OmniCine_V1" "Singularity LTX-2.3  OmniCine Preview v0.1.safetensors" "$COMFY_DIR/models/loras" "Singularity LTX-2.3  OmniCine Preview v0.1.safetensors"
 download_hf_model "joyfox/LTX2.3-ICEdit-Insight" "ltx2.3-ic-subtitles-remove-general.safetensors" "$COMFY_DIR/models/loras" "ltx2.3-ic-subtitles-remove-general.safetensors"

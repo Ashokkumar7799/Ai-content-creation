@@ -51,6 +51,11 @@ case $option in
         echo "✅ SeedVR2 and FLUX Base models deleted (~20-45GB freed)!"
         ;;
     4)
+        echo "🗑️ Deleting Deep-Live-Cam models..."
+        rm -rf "$HOME/LTX_Workspace/Deep-Live-Cam/models"
+        echo "✅ Deep-Live-Cam models deleted (~4GB freed)!"
+        ;;
+    5)
         echo "🗑️ Deleting Wan 2.2 models..."
         rm -rf "$COMFY_DIR/models/diffusion_models/WanVideo"
         rm -rf "$COMFY_DIR/models/vae/wanvideo"

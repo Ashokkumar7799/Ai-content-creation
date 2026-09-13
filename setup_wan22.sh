@@ -26,6 +26,13 @@ if [ ! -d "$COMFY_DIR/venv_wan" ]; then
     echo "⚙️ Installing ComfyUI base requirements..."
     venv_wan/bin/pip install -r requirements.txt
     
+    echo "⚙️ Installing ComfyUI-Manager dependencies..."
+    if [ -f "custom_nodes/ComfyUI-Manager/requirements.txt" ]; then
+        venv_wan/bin/pip install -r custom_nodes/ComfyUI-Manager/requirements.txt
+    else
+        venv_wan/bin/pip install GitPython toml
+    fi
+    
     echo "🔌 Installing Kijai's WanVideoWrapper custom node..."
     if [ ! -d "custom_nodes/ComfyUI-WanVideoWrapper" ]; then
         git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git custom_nodes/ComfyUI-WanVideoWrapper
